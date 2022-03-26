@@ -14,6 +14,8 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  ssr: false,
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
@@ -32,6 +34,24 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: "AIzaSyAfWPHZQaE2INyFuPIH2GPVbPG-AmL74aU",
+          authDomain: "beebovocab.firebaseapp.com",
+          projectId: "beebovocab",
+          storageBucket: "beebovocab.appspot.com",
+          messagingSenderId: "877191793479",
+          appId: "1:877191793479:web:b34728027547f37f8d5a62",
+          measurementId: "G-3YPZHG4DVC"
+        },
+        services: {
+          auth: true // Just as example. Can be any other service.
+        }
+      }
+    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -42,4 +62,31 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  auth: {
+    rewriteRedirects: true, // If enabled, user will redirect back to the original guarded route instead of redirect.home.
+    fullPathRedirect: false, // If true, use the full route path with query parameters for redirect
+    strategies: {
+      laravelJWT: {
+        provider: 'laravel/jwt',
+        url: 'http://localhost:8000',
+        token: {
+          property: 'token',
+          maxAge: 60 * 60 * 24 * 30
+        },
+        user: {
+          property: 'data'
+        },
+        refreshToken: {
+          maxAge: 60 * 60 * 24 * 30
+        }
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/'
+    }
+  },
 }

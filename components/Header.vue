@@ -13,6 +13,7 @@
           </b-dropdown>
 
           <b-button variant="outline-warning" to="/login">SIGN IN</b-button>
+          <b-button variant="outline-warning" @click='logout'>SIGN OUT</b-button>
 
 <!--          <b-nav-item-dropdown right>-->
 <!--            &lt;!&ndash; Using 'button-content' slot &ndash;&gt;-->
@@ -30,5 +31,12 @@
 
 <script>
 export default {
+  methods: {
+    async logout () {
+      await this.$auth.logout();
+      await this.$fireModule.auth().signOut();
+      await this.$router.push('/login');
+    },
+  }
 }
 </script>

@@ -6,7 +6,7 @@
       </div>
       <div>
         <h1 class="font-weight-bold lg-mt-5 lg-ml-5">BeeBoVocab</h1>
-        <h3></h3>
+        <h3>Xin chào {{ this.$auth.user }}</h3>
       </div>
     </div>
   </div>
