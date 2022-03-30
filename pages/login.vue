@@ -1,5 +1,5 @@
 <template>
-  <div class='h-100'>
+  <section class='h-100'>
     <div class='container py-5'>
       <div class='card shadow-lg border-warning'>
         <div class='d-flex'>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -109,9 +109,7 @@ export default {
           setTimeout(function() {
             _this.isLoading = false
           }, 2000)
-          // console.log('Gửi OTP thành công \n');
         }).catch(function(error) {
-        console.log('Gửi OTP thất bại \n' + +error.code + '\n\n' + error.message)
         _this.isLoading = false
         _this.ShowNotify('error', 'Thất bại', 'Số điện thoại không hợp lệ hoặc bạn đã đăng nhập quá nhiều lần trong ngày nên không thể gửi mã OTP!')
       })
@@ -120,7 +118,6 @@ export default {
       const _this = this
       this.isLoading = true
       this.confirmationResult.confirm(this.otp).then(function(result) {
-        // console.log('OTP đúng');
       }).catch(function(error) {
         console.log('OTP sai', error)
         _this.isLoading = false
@@ -136,7 +133,7 @@ export default {
         }
       }).then(function() {
         if (_this.$auth.loggedIn) {
-          _this.$router.back()
+          _this.$router.push('/')
         } else {
           this.ShowNotify('error', 'Đăng nhập thất bại', 'Vui lòng thử lại sau')
         }
