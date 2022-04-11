@@ -1,14 +1,18 @@
 <template>
-  <div class="h-100">
+  <div>
     <Header/>
-    <Nuxt />
+    <div class='d-flex mt-4'>
+      <sidebar />
+      <Nuxt />
+    </div>
     <Footer />
   </div>
 </template>
 
 <script>
 import Footer from '~/components/Footer'
+import Sidebar from '~/components/Sidebar'
 export default {
-  components: { Footer }
+  components: { Sidebar, Footer }
 }
 </script>

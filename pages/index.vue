@@ -40,7 +40,8 @@
     </div>
     <div v-if='$auth.user' class="d-flex">
       <div>
-        <h3>Xin chào {{ this.$auth.user }}</h3>
+        <div></div>
+<!--        <p>{{ this.$auth.user }}</p>-->
       </div>
     </div>
   </div>
