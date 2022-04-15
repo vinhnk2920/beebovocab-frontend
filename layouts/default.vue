@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class='position-relative'>
     <Header/>
-    <div class='d-flex mt-4'>
+    <div class='d-flex' style='padding-top: 10%;'>
       <sidebar />
       <Nuxt />
     </div>

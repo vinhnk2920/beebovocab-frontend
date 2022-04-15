@@ -168,7 +168,7 @@ export default {
         }
       }).then(function() {
         if (_this.$auth.loggedIn) {
-          _this.$router.push('/dashboard')
+          _this.$router.push('/')
         } else {
           this.ShowNotify('error', 'Đăng nhập thất bại', 'Vui lòng thử lại sau')
         }

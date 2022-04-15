@@ -1,10 +1,12 @@
 <template>
   <div class='px-5 w-100'>
-    <img src='../static/error.png' class='w-100' alt='error' />
+    <div>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'Competition result'
+  name: 'profile',
 }
 </script>
+
