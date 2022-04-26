@@ -1,4 +1,4 @@
-import { ADD_DATA, SET_DATA } from './mutation-types'
+import { ADD_DATA, SET_DATA, SET_TODAY } from './mutation-types'
 export default {
   /**
    *
@@ -12,4 +12,8 @@ export default {
   [ADD_DATA](state, tags) {
     state.data.push(...tags)
   },
+
+  [SET_TODAY](state, date) {
+    state.today = date
+  }
 }

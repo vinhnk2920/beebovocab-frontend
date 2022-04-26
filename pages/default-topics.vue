@@ -1,8 +1,8 @@
 <template>
   <div class='px-5 w-100'>
     <b-row style='margin-top: -4%;'>
-      <template v-for="set in $store.state.vocabulary_sets.default_sets">
-        <DefaultVocabSetsDetail :key="set.id" :data="set" />
+      <template v-for="topic in $store.state.vocabulary_sets.default_topics">
+        <DefaultTopics :key="topic.id" :data="topic" />
       </template>
     </b-row>
 
@@ -19,9 +19,10 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import DefaultVocabSetsDetail from '~/components/DefaultVocabSetsDetail'
+import DefaultTopics from '~/components/DefaultTopics'
 export default {
-  name: 'Default vocab sets',
-  components: { DefaultVocabSetsDetail, InfiniteLoading },
+  name: 'Default topics',
+  components: { DefaultTopics, DefaultVocabSetsDetail, InfiniteLoading },
   data() {
     return {
 
@@ -32,14 +33,16 @@ export default {
       const self = this
       this.$store.state.loading = true
       this.$store
-        .dispatch('vocabulary_sets/findSetByTopic', {id: self.$store.state.vocabulary_sets.topic_id, page: self.$store.state.vocabulary_sets.query.page})
+        .dispatch('vocabulary_sets/getDefaultTopics', {page: self.$store.state.vocabulary_sets.query.page})
         .then((response) => {
-          self.$store.state.loading = false
-          if (response.data.data.vocabulary_sets.data.length) {
+          if(response.data.success){
+            self.$store.state.loading = false
+          }
+          if (response.data.data.topics.data.length) {
             self.$store.commit('vocabulary_sets/ADD_PAGE')
             self.$store.commit(
-              'vocabulary_sets/ADD_DEFAULT_SETS',
-              response.data.data.vocabulary_sets.data
+              'vocabulary_sets/SET_DEFAULT_TOPICS',
+              response.data.data.topics.data
             )
             $state.loaded()
           }
@@ -50,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('vocabulary_sets/RESET_DEFAULT_SETS')
+    this.$store.commit('vocabulary_sets/RESET_DEFAULT_TOPICS')
   }
 }
 </script>

@@ -1,4 +1,17 @@
-import { ADD_DEFAULT_SETS, ADD_PAGE, ADD_VOCAB_SETS, RESET_VOCAB_SETS, SET_DATA, RESET_DEFAULT_SETS } from './mutation-types'
+import {
+  ADD_DEFAULT_SETS,
+  ADD_PAGE,
+  ADD_VOCAB_SETS,
+  RESET_VOCAB_SETS,
+  SET_DATA,
+  RESET_DEFAULT_SETS,
+  SET_UPDATE_SET,
+  RESET_PAGE,
+  SET_DEFAULT_TOPICS,
+  RESET_DEFAULT_TOPICS,
+  ADD_TOPIC_ID,
+  ADD_CURRENT_VOCAB_SET, ADD_LEARNING_VOCAB_SET, RESET_LEARNING_VOCAB_SET, UPDATE_LEARNING_VOCAB_INFO
+} from './mutation-types'
 export default {
   /**
    *
@@ -18,8 +31,8 @@ export default {
   },
 
   [RESET_VOCAB_SETS](state){
-    state.vocabulary_sets = []
     state.query.page = 1
+    state.vocabulary_sets = []
   },
 
   [RESET_DEFAULT_SETS](state) {
@@ -29,5 +42,46 @@ export default {
 
   [ADD_DEFAULT_SETS](state, sets){
     state.default_sets.push(...sets)
+  },
+
+  [SET_UPDATE_SET](state, id) {
+    state.currentId = id
+  },
+
+  [RESET_PAGE](state) {
+    state.query.page = 1
+  },
+
+  [SET_DEFAULT_TOPICS](state, topics){
+    state.default_topics.push(...topics)
+  },
+
+  [RESET_DEFAULT_TOPICS](state) {
+    state.default_topics = []
+    state.query.page = 1
+  },
+
+  [ADD_TOPIC_ID](state, id) {
+    state.topic_id = id
+  },
+
+  [ADD_CURRENT_VOCAB_SET](state, set) {
+    state.currentVocabSet = set
+  },
+
+  [ADD_LEARNING_VOCAB_SET](state,set) {
+    state.learningVocabSet = set
+  },
+
+  [RESET_LEARNING_VOCAB_SET](state) {
+    state.query.page = 1
+    state.learningVocabSet = []
+  },
+
+  [UPDATE_LEARNING_VOCAB_INFO](state, {id, word, definition, image}) {
+    const index = state.learningVocabSet.findIndex(vocab => vocab.id === id);
+    state.learningVocabSet[index].word = word
+    state.learningVocabSet[index].definition = definition
+    state.learningVocabSet[index].definition_image = image
   }
 }

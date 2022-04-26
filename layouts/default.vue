@@ -1,7 +1,7 @@
 <template>
   <div class='position-relative'>
     <Header/>
-    <div class='d-flex' style='padding-top: 10%;'>
+    <div class='d-flex' style='padding-top: 8%;'>
       <sidebar />
       <Nuxt />
     </div>
@@ -12,7 +12,12 @@
 <script>
 import Footer from '~/components/Footer'
 import Sidebar from '~/components/Sidebar'
+import { SET_TODAY } from '~/store/home/mutation-types'
 export default {
-  components: { Sidebar, Footer }
+  components: { Sidebar, Footer },
+  methods: {
+  },
+  mounted() {
+  }
 }
 </script>

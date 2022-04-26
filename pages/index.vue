@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-5">
-    <div v-if='!$auth.user'>
+  <div class="container">
+    <div v-if='!$auth.user' class='mt-5'>
       <div class="d-flex">
         <div class='pt-lg-5'>
           <h1 class='slogan font-weight-bolder'>Develop your <span class='font-weight-bolder bg-warning rounded-lg px-2'>lexicon</span></h1>
@@ -38,18 +38,98 @@
         </div>
       </div>
     </div>
-    <div v-if='$auth.user' class="d-flex">
-      <div>
-        <div></div>
-<!--        <p>{{ this.$auth.user }}</p>-->
+    <div v-if='$auth.user && $auth.user.role === "admin"' class="d-flex">
+      <div class="d-flex w-100">
+        <div class='embed-responsive embed-responsive-16by9 video-icon'>
+          <video class="embed-responsive-item" src="https://firebasestorage.googleapis.com/v0/b/justanotherstore-794bc.appspot.com/o/pers_408px.mp4?alt=media&amp;token=192787af-62c6-4bb6-8449-8c32e7924e39" type="video/mp4" width="508" height="508" loop="true" autoplay="true" muted="true" playsinline="true"></video>
+        </div>
+        <div class='pt-lg-5 w-50 text-center'>
+          <h1 class='slogan font-weight-bolder'>Xin chào</h1>
+          <h1 class='font-weight-bolder bg-warning w-max-min rounded-lg px-2 py-2'>{{$auth.user.name}}</h1>
+        </div>
+      </div>
+    </div>
+    <div v-if='$auth.user && $auth.user.role !== "admin"' class="d-flex">
+      <div  style='width: 65%; margin-right: 5%;'>
+        <div class='d-flex shadow-lg py-5 pr-2 rounded-lg'>
+          <div class='embed-responsive embed-responsive-16by9 video-icon'>
+            <video class="embed-responsive-item" src="https://firebasestorage.googleapis.com/v0/b/justanotherstore-794bc.appspot.com/o/pers_408px.mp4?alt=media&amp;token=192787af-62c6-4bb6-8449-8c32e7924e39" type="video/mp4" width="508" height="508" loop="true" autoplay="true" muted="true" playsinline="true"></video>
+          </div>
+          <div class='w-50 text-center'>
+            <h2 class='slogan font-weight-bolder'>Xin chào</h2>
+            <h2 class='font-weight-bolder bg-warning w-max-min rounded-lg px-2 py-2'>{{$auth.user.name}}</h2>
+            <h4 class='py-2'>Bạn có <span>30</span> từ cần ôn tập</h4>
+            <button class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Ôn tập</button>
+          </div>
+        </div>
+        <div class='mt-5'>
+          <BarChart />
+        </div>
+      </div>
+      <div style='width: 30%;' class='text-center shadow-lg rounded-lg'>
+        <div class='py-4 border-bottom'>
+          <b-calendar locale="vi" selected-variant='warning' />
+        </div>
+        <div>
+          <h3 class='py-2'>Các bài học gần đây</h3>
+          <div v-for='set in lastSets' :key='set.id' class='d-flex bg-warning py-3 rounded-lg mb-4 mx-4 shadow'>
+            <div style='width: 30%;'>
+              <b-avatar :src='set.avatar_image'/>
+            </div>
+            <div style='width: 65%;' class='text-left'>
+              <h5 class='p-0 m-0'>{{set.title}}</h5>
+              <p class='p-0 m-0'>{{set.description}}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import VCalendar from 'v-calendar';
+import BarChart from '~/components/BarChart'
+
 export default {
   name: 'IndexPage',
+  components: { BarChart, VCalendar},
+  data() {
+    return {
+      lastSets: [
+        {
+          avatar_image: "https://d3jlwjv6gmyigl.cloudfront.net/images/2019/11/school1.jpg",
+          created_at: "2022-04-17 18:05:25.379024",
+          created_user_id: 1,
+          description: "Trường học",
+          id: 14,
+          title: "Schools",
+          topic_id: 2,
+          update_at: "2022-04-17 18:05:25.379024",
+        },
+        {
+          avatar_image: "https://media.istockphoto.com/vectors/generation-gap-concept-a-young-woman-and-mature-female-look-away-from-vector-id1287595174?k=20&m=1287595174&s=170667a&w=0&h=xpUQxr5nZvcAGUZtZiJnUBee-2klNhcTHa9rrFxNmYU=",
+          created_at: "2022-04-12 23:41:23.284712",
+          created_user_id: 6,
+          description: "Khoảng cách thế hệ 1",
+          id: 1,
+          title: "Generation Gap",
+          topic_id: 0,
+          update_at: "2022-04-12 23:41:23.284712",
+        },
+        {
+          avatar_image: "https://cdn.mos.cms.futurecdn.net/PHpPMacPX2Y9PqWXvCVdJg-320-80.jpg",
+          created_at: "2022-04-13 16:14:59.779350",
+          created_user_id: 6,
+          description: "Bộ từ về bạn bè",
+          id: 4,
+          title: "Friends",
+          topic_id: 0,
+          update_at: "2022-04-13 16:14:59.779350"
+        }
+      ]
+    }
+  },
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class='px-5 w-100'>
-    <h3>Hãy bắt đầu tạo bộ từ vựng của bạn</h3>
+    <h3>{{$store.state.vocabulary_sets.currentVocabSet.title}}</h3>
     <div class='mt-3 d-flex w-100'>
       <div style='width: 75%; margin-right: 3%;'>
         <b-form-group
@@ -48,17 +48,13 @@
         </b-form-group>
       </div>
       <div style='width: 22%;'>
-        <b-button class='w-100 bg-white mt-4' style='border: 2px dashed gray; height: 75%;' @click='isOpenImage = !isOpenImage'>
-          <svg v-if='!image' xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="gray" class="bi bi-card-image" viewBox="0 0 16 16">
-            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-            <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
-          </svg>
-          <img v-else :src='image' style='width: 100%;' alt='Hình minh họa'/>
+        <b-button class='w-100 bg-white mt-4 p-0' style='border: 2px dashed gray; height: 75%;' @click='isOpenImage = !isOpenImage'>
+          <img :src='image' style='max-width: 227px; max-height: 189px;' />
         </b-button>
       </div>
     </div>
     <div class='mt-5'>
-      <b-button variant='warning' class='font-weight-bold btn-create' @click='createVocabSet'>Tạo bộ từ</b-button>
+      <b-button variant='warning' class='font-weight-bold btn-create' @click='updateVocabSet'>Cập nhật bộ từ</b-button>
     </div>
   </div>
 </template>
@@ -66,25 +62,26 @@
 import Swal from 'sweetalert2'
 
 export default {
-  name: 'create vocab set',
+  name: 'edit vocab set',
   data() {
     return {
       title: '',
       description: '',
       language: 'English',
       image: '',
-      isOpenImage: false,
+      isOpenImage: true,
     }
   },
   methods: {
-    createVocabSet() {
+    updateVocabSet() {
       const createVocabSetPayload = {
+        id: this.$store.state.vocabulary_sets.currentId,
         title: this.title,
         description: this.description,
         avatar_image: this.image,
         created_user_id: this.$auth.user.id,
       }
-      this.$store.dispatch('vocabulary_sets/createVocabSet', createVocabSetPayload).then((response) => {
+      this.$store.dispatch('vocabulary_sets/updateVocabSet', createVocabSetPayload).then((response) => {
         if(response.data.success) {
           Swal.fire({
             title: 'Thông báo',
@@ -98,7 +95,16 @@ export default {
           this.image = '';
           this.$store.commit('vocabulary_sets/RESET_VOCAB_SETS')
           this.$router.push('/individual-vocab-sets')
-        } else {
+        }
+      })
+    },
+    showVocabSet() {
+      this.$store.dispatch('vocabulary_sets/getSet', this.$store.state.vocabulary_sets.currentId).then((response) => {
+        if(response.data.success) {
+          this.title = response.data.data.vocabulary[0].title
+          this.description = response.data.data.vocabulary[0].description
+          this.image = response.data.data.vocabulary[0].avatar_image
+        } else  {
           Swal.fire({
             title: 'Thông báo',
             text: response.data.message,
@@ -107,16 +113,11 @@ export default {
             icon: 'error',
           })
         }
-      }).catch(error => {
-        Swal.fire({
-          title: 'Thông báo',
-          text: "Bạn hãy kiểm tra thông tin nhập vào",
-          showConfirmButton: false,
-          timer: 1500,
-          icon: 'error',
-        })
       })
     }
+  },
+  mounted() {
+    this.showVocabSet()
   }
 }
 </script>

@@ -51,6 +51,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.commit('vocabulary_sets/RESET_VOCAB_SETS')
   }
 }
 </script>

@@ -9,12 +9,12 @@
             </svg>
           </template>
           <b-dropdown-item><nuxt-link to='/vocab-set/edit-vocab-set'  style='color: black;'>Sửa</nuxt-link></b-dropdown-item>
-          <b-dropdown-item @click='addVocab(data)'>Chỉnh sửa từ vựng</b-dropdown-item>
+          <b-dropdown-item @click='addVocab'>Thêm từ vựng</b-dropdown-item>
           <b-dropdown-item @click='deleteSet(data.id)'>Xóa</b-dropdown-item>
         </b-dropdown>
       </b-card-text>
       <b-card-text class='d-flex justify-content-center'>
-        <img :src='data.avatar_image' style='width: 50%; min-height: 145px; max-height: 146px' class='rounded-circle' />
+        <img :src='data.avatar_image' style='width: 50%; min-height: 145px; max-height: 146px;' class='rounded-circle' />
       </b-card-text>
       <b-card-text class='text-center border-top pt-2'>
         <h5>{{data.title}}</h5>
@@ -22,7 +22,7 @@
       </b-card-text>
       <template #footer>
         <div class='d-flex justify-content-center'>
-          <button @click='learnIndividualSet(data)' class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Học bộ từ</button>
+          <button @click='learnVocabSet(data)' class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Học bộ từ</button>
         </div>
       </template>
     </b-card>
@@ -32,7 +32,7 @@
 import Swal from 'sweetalert2'
 
 export default {
-  name: 'VocabSetsDetail',
+  name: 'DefaultVocabSetsDetail',
   props: {
     data: {
       type: Object,
@@ -65,30 +65,13 @@ export default {
         }
       })
     },
-    addVocab(vocab_set){
-      this.$store.commit('vocabulary_sets/ADD_CURRENT_VOCAB_SET', vocab_set)
-      this.$store.dispatch('vocabulary_sets/showVocabularies', vocab_set.id).then((response) => {
-        if (response.data.success) {
-          this.$store.commit('vocabulary_sets/ADD_LEARNING_VOCAB_SET', response.data.data.vocabularies)
-          this.$router.push('/individual-vocabularies')
-        } else {
-          Swal.fire({
-            title: 'Thông báo',
-            text: response.data.message,
-            showConfirmButton: false,
-            timer: 1500,
-            icon: 'error',
-          })
-        }
-      })
-    },
-    learnIndividualSet(vocab_set) {
+    learnVocabSet(vocab_set) {
       this.$store.commit('vocabulary_sets/ADD_CURRENT_VOCAB_SET', vocab_set)
       this.$store.dispatch('vocabulary_sets/showVocabularies', vocab_set.id).then((response) => {
         if (response.data.success) {
           if (response.data.data.vocabularies.length > 0) {
             this.$store.commit('vocabulary_sets/ADD_LEARNING_VOCAB_SET', response.data.data.vocabularies)
-            this.$router.push('/learn-individual-sets')
+            this.$router.push('/learn-default-sets')
           } else {
             Swal.fire({
               title: 'Thông báo',

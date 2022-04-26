@@ -5,6 +5,7 @@ const STATE = {
     // page: 1,
   },
   currentItem: '',
+  today: '',
 }
 
 export default STATE

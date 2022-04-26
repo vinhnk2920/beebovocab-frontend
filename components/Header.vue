@@ -1,16 +1,6 @@
 <template>
   <div class="position-fixed w-100 bg-white" style='z-index: 10;'>
     <b-navbar toggleable="lg">
-<!--      <b-button v-b-toggle.sidebar-1 v-if='$auth.user'>Toggle Sidebar</b-button>-->
-<!--      <b-sidebar id="sidebar-1" title="Sidebar" shadow>-->
-<!--        <div class="px-3 py-2">-->
-<!--          <p>-->
-<!--            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis-->
-<!--            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.-->
-<!--          </p>-->
-<!--          <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>-->
-<!--        </div>-->
-<!--      </b-sidebar>-->
 
       <b-navbar-brand><nuxt-link style='color: black' to='/'><b-avatar variant="warning">B</b-avatar> BeeboVocab</nuxt-link></b-navbar-brand>
 
@@ -18,14 +8,15 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-<!--          <b-dropdown text="Language" class="mr-lg-3" variant="warning">-->
-<!--            <b-dropdown-item href="#">English</b-dropdown-item>-->
-<!--            <b-dropdown-item href="#">Vietnamese</b-dropdown-item>-->
-<!--          </b-dropdown>-->
           <b-nav-item v-if='!this.$auth.user' class='font-weight-bold text-black-100' href='#about-us'>Về chúng tôi</b-nav-item>
           <b-nav-item v-if='!this.$auth.user' class='font-weight-bold text-black-100' href='#contact-us'>Liên hệ</b-nav-item>
+
+          <nuxt-link to='manage-topics' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3'>Chủ đề</nuxt-link>
+          <nuxt-link to='manage-sets' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3 ml-3'>Bộ từ</nuxt-link>
+          <nuxt-link to='manage-users' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3 ml-3'>Người dùng</nuxt-link>
+
           <b-button v-if='!this.$auth.user' class='ml-3' variant="outline-warning" to="/login">Đăng nhập</b-button>
-          <b-button v-if='this.$auth.user' class='ml-3 pt-2' :disabled='this.$route.name === "vocab-set-create-vocab-set"' variant="warning" to="vocab-set/create-vocab-set">
+          <b-button v-if='this.$auth.user && $auth.user.role !== "admin"' class='ml-3 pt-2' :disabled='this.$route.name === "vocab-set-create-vocab-set"' variant="warning" to="vocab-set/create-vocab-set">
             <svg xmlns="http://www.w3.org/2000/svg" class='mb-1' height="24px" viewBox="0 0 24 24" width="24px" fill="#212529"><path d="M0 0h24v24H0V0z" fill="none"/>
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
