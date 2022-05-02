@@ -10,7 +10,7 @@ import {
   SET_DEFAULT_TOPICS,
   RESET_DEFAULT_TOPICS,
   ADD_TOPIC_ID,
-  ADD_CURRENT_VOCAB_SET, ADD_LEARNING_VOCAB_SET, RESET_LEARNING_VOCAB_SET, UPDATE_LEARNING_VOCAB_INFO
+  ADD_CURRENT_VOCAB_SET, ADD_LEARNING_VOCAB_SET, RESET_LEARNING_VOCAB_SET, UPDATE_LEARNING_VOCAB_INFO, ADD_COUNT_LEVEL
 } from './mutation-types'
 export default {
   /**
@@ -83,5 +83,9 @@ export default {
     state.learningVocabSet[index].word = word
     state.learningVocabSet[index].definition = definition
     state.learningVocabSet[index].definition_image = image
+  },
+
+  [ADD_COUNT_LEVEL](state, level) {
+    state.vocabLevel = level
   }
 }

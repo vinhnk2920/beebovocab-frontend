@@ -63,7 +63,7 @@
           </div>
         </div>
         <div class='mt-5'>
-          <BarChart />
+          <BarChart :chart-data='chartData'/>
         </div>
       </div>
       <div style='width: 30%;' class='text-center shadow-lg rounded-lg'>
@@ -127,9 +127,28 @@ export default {
           topic_id: 0,
           update_at: "2022-04-13 16:14:59.779350"
         }
-      ]
+      ],
+      vocabLevel: [],
+      chartData: {}
     }
   },
+  methods: {
+    countData() {
+      this.$store.dispatch('vocabulary_sets/countVocab', this.$auth.user.id).then((response) => {
+        if (response.data.success) {
+          this.vocabLevel.push(response.data.data['level1'],response.data.data['level2'],response.data.data['level3'],response.data.data['level4'],response.data.data['level5'])
+          this.chartData = {
+            labels: [ 'Mức độ 1', 'Mức độ 2', 'Mức độ 3', 'Mức độ 4', 'Mức độ 5' ],
+            datasets: [ { data: this.vocabLevel, label: 'Số từ', backgroundColor: '#FFC107' } ]
+          }
+          console.log(this.chartData)
+        }
+      })
+    }
+  },
+  mounted() {
+    this.countData()
+  }
 }
 </script>
 

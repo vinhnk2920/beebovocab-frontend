@@ -54,3 +54,13 @@ export function createVocabularies({ commit, state }, params) {
 export function showVocabularies({ commit, state }, id) {
   return axios.get(`/vocabs/` + id)
 }
+
+export function reviewVocabularies({ commit, state }, params) {
+  return axios.post(`/vocabs/review`, params)
+}
+
+export function countVocab({ commit, state }, id) {
+  return axios.get(`/review/count-level?user_id=` + id)
+}
+
+

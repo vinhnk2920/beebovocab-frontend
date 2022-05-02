@@ -21,7 +21,7 @@
         <p>{{data.description}}</p>
       </b-card-text>
       <template #footer>
-        <div class='d-flex justify-content-center'>
+        <div class='d-flex justify-content-center mt-0'>
           <button @click='learnVocabSet(data)' class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Học bộ từ</button>
         </div>
       </template>

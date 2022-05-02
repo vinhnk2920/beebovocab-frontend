@@ -49,18 +49,22 @@ export default {
     plugins: {
       type: Object,
       default: () => {}
-    }
+    },
+    chartData: {
+      type: Object,
+      required: true
+    },
   },
   data() {
     return {
-      chartData: {
-        labels: [ 'Mức độ 1', 'Mức độ 2', 'Mức độ 3', 'Mức độ 4', 'Mức độ 5' ],
-        datasets: [ { data: [120, 20, 12, 99, 1220], label: 'Số từ', backgroundColor: '#FFC107' } ]
-      },
+      // chartData: {
+      //   labels: [ 'Mức độ 1', 'Mức độ 2', 'Mức độ 3', 'Mức độ 4', 'Mức độ 5' ],
+      //   datasets: [ { data: this.dataLevel, label: 'Số từ', backgroundColor: '#FFC107' } ]
+      // },
       chartOptions: {
         responsive: true
       }
     }
-  }
+  },
 }
 </script>

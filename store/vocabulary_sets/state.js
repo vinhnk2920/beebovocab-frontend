@@ -22,6 +22,7 @@ const STATE = {
       definition_image: '',
     }
   ],
+  vocabLevel: []
 }
 
 export default STATE
