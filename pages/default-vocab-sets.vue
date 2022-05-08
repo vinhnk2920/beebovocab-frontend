@@ -1,5 +1,8 @@
 <template>
   <div class='px-5 w-100'>
+    <div class='d-flex justify-content-end mb-3' v-if='$auth.user.role === "admin"'>
+      <nuxt-link to='create-default-vocab-set'><b-button variant='warning' class='font-weight-bold btn-create'>+     Thêm bộ từ</b-button></nuxt-link>
+    </div>
     <b-row style='margin-top: -4%;'>
       <template v-for="set in $store.state.vocabulary_sets.default_sets">
         <DefaultVocabSetsDetail :key="set.id" :data="set" />

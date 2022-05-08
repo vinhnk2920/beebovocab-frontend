@@ -9,8 +9,10 @@ const STATE = {
   },
   currentItem: '',
   currentId: 1,
+  currentTopic: 1,
   updateItem: [],
   currentVocabSet: [],
+  pickedTopicName: '',
   learningVocabSet: [],
   added_vocabularies: [
     {
@@ -22,7 +24,10 @@ const STATE = {
       definition_image: '',
     }
   ],
-  vocabLevel: []
+  vocabLevel: [],
+  reviewList: [],
+  reviewCount: 0,
+  reviewSets: []
 }
 
 export default STATE

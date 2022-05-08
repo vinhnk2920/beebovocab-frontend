@@ -19,6 +19,22 @@ export function getDefaultTopics({ commit, state }, params) {
   return axios.get(`/topics`, { params })
 }
 
+export function createDefaultTopic({ commit, state }, params) {
+  return axios.post(`/topics/create`, params)
+}
+
+export function findTopicById({ commit, state }, id) {
+  return axios.get(`/topics/` + id)
+}
+
+export function updateDefaultTopic({ commit, state }, params) {
+  return axios.post(`/topics/update`, params)
+}
+
+export function deleteDefaultTopic({ commit, state }, params) {
+  return axios.post(`/topics/delete`, params)
+}
+
 export function getSet({ commit, state }, id) {
   return axios.get(`/vocabulary_sets/` + id)
 }
@@ -62,5 +78,34 @@ export function reviewVocabularies({ commit, state }, params) {
 export function countVocab({ commit, state }, id) {
   return axios.get(`/review/count-level?user_id=` + id)
 }
+
+export function showreviewList({ commit, state }, id) {
+  return axios.get(`/review/vocabs?user_id=` + id)
+}
+
+export function showReviewSet({ commit, state }, id) {
+  return axios.get(`/review/lately-review-sets?user_id=` + id)
+}
+
+export function findFriend({ commit, state }, params) {
+  return axios.post(`/friend/findByPhoneOrEmail`, params)
+}
+
+export function addFriend({ commit, state }, params) {
+  return axios.post(`/friend/addFriendRequest`, params)
+}
+
+export function deleteFriend({ commit, state }, params) {
+  return axios.post(`/friend/deleteFriendRequest`, params)
+}
+
+export function showFriend({ commit, state }, params) {
+  return axios.post(`/friend`, params)
+}
+
+export function updateFriendStatus({ commit, state }, params) {
+  return axios.post(`/friend/updateFriendStatus`, params)
+}
+
 
 

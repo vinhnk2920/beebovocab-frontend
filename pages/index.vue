@@ -6,7 +6,7 @@
           <h1 class='slogan font-weight-bolder'>Develop your <span class='font-weight-bolder bg-warning rounded-lg px-2'>lexicon</span></h1>
           <h1 class='slogan font-weight-bolder'> with us!</h1>
           <h4 class='mt-3'>Chúng tôi luôn sẵn sàng đồng hành cùng các bạn học ngoại ngữ với mục tiêu nâng cao vốn từ vựng một cách hiệu quả.</h4>
-          <b-button class='mt-3' variant="warning">Bắt đầu học</b-button>
+          <b-button class='mt-3' to='/login' variant="warning">Bắt đầu học</b-button>
           <b-button class='mt-3' variant='outline-warning'>Hướng dẫn</b-button>
         </div>
         <div class='embed-responsive embed-responsive-16by9 video-icon'>
@@ -58,8 +58,8 @@
           <div class='w-50 text-center'>
             <h2 class='slogan font-weight-bolder'>Xin chào</h2>
             <h2 class='font-weight-bolder bg-warning w-max-min rounded-lg px-2 py-2'>{{$auth.user.name}}</h2>
-            <h4 class='py-2'>Bạn có <span>30</span> từ cần ôn tập</h4>
-            <button class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Ôn tập</button>
+            <h4 class='py-2'>Bạn có <span class='font-weight-bold bg-warning px-2 rounded-lg'>{{this.$store.state.vocabulary_sets.reviewCount}}</span> từ cần ôn tập</h4>
+            <button @click='reviewVocab' class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Ôn tập</button>
           </div>
         </div>
         <div class='mt-5'>
@@ -67,12 +67,13 @@
         </div>
       </div>
       <div style='width: 30%;' class='text-center shadow-lg rounded-lg'>
-        <div class='py-4 border-bottom'>
-          <b-calendar locale="vi" selected-variant='warning' />
+        <div class='border-bottom' style='padding-top: 15%; padding-bottom: 15%;'>
+          <h2>Số từ đã học</h2>
+          <h2 class='mt-5' style='font-size: 105px;'><span class='rounded-circle bg-warning px-5 py-1'>{{totalWord}}</span></h2>
         </div>
-        <div>
-          <h3 class='py-2'>Các bài học gần đây</h3>
-          <div v-for='set in lastSets' :key='set.id' class='d-flex bg-warning py-3 rounded-lg mb-4 mx-4 shadow'>
+        <div class='mt-5'>
+          <h3 class='py-2 mb-3'>Các bài học gần đây</h3>
+          <div v-for='set in $store.state.vocabulary_sets.reviewSets' :key='set.id' class='d-flex bg-warning py-3 rounded-lg mb-4 mx-4 shadow'>
             <div style='width: 30%;'>
               <b-avatar :src='set.avatar_image'/>
             </div>
@@ -96,40 +97,9 @@ export default {
   components: { BarChart, VCalendar},
   data() {
     return {
-      lastSets: [
-        {
-          avatar_image: "https://d3jlwjv6gmyigl.cloudfront.net/images/2019/11/school1.jpg",
-          created_at: "2022-04-17 18:05:25.379024",
-          created_user_id: 1,
-          description: "Trường học",
-          id: 14,
-          title: "Schools",
-          topic_id: 2,
-          update_at: "2022-04-17 18:05:25.379024",
-        },
-        {
-          avatar_image: "https://media.istockphoto.com/vectors/generation-gap-concept-a-young-woman-and-mature-female-look-away-from-vector-id1287595174?k=20&m=1287595174&s=170667a&w=0&h=xpUQxr5nZvcAGUZtZiJnUBee-2klNhcTHa9rrFxNmYU=",
-          created_at: "2022-04-12 23:41:23.284712",
-          created_user_id: 6,
-          description: "Khoảng cách thế hệ 1",
-          id: 1,
-          title: "Generation Gap",
-          topic_id: 0,
-          update_at: "2022-04-12 23:41:23.284712",
-        },
-        {
-          avatar_image: "https://cdn.mos.cms.futurecdn.net/PHpPMacPX2Y9PqWXvCVdJg-320-80.jpg",
-          created_at: "2022-04-13 16:14:59.779350",
-          created_user_id: 6,
-          description: "Bộ từ về bạn bè",
-          id: 4,
-          title: "Friends",
-          topic_id: 0,
-          update_at: "2022-04-13 16:14:59.779350"
-        }
-      ],
       vocabLevel: [],
-      chartData: {}
+      chartData: {},
+      totalWord: 0,
     }
   },
   methods: {
@@ -137,17 +107,38 @@ export default {
       this.$store.dispatch('vocabulary_sets/countVocab', this.$auth.user.id).then((response) => {
         if (response.data.success) {
           this.vocabLevel.push(response.data.data['level1'],response.data.data['level2'],response.data.data['level3'],response.data.data['level4'],response.data.data['level5'])
+          this.totalWord = response.data.data['level1'] + response.data.data['level2'] + response.data.data['level3'] + response.data.data['level4'] + response.data.data['level5']
           this.chartData = {
             labels: [ 'Mức độ 1', 'Mức độ 2', 'Mức độ 3', 'Mức độ 4', 'Mức độ 5' ],
             datasets: [ { data: this.vocabLevel, label: 'Số từ', backgroundColor: '#FFC107' } ]
           }
-          console.log(this.chartData)
         }
       })
+    },
+    showReviewList() {
+      this.$store.dispatch('vocabulary_sets/showreviewList', this.$auth.user.id).then((response) => {
+        if (response.data.success) {
+          this.$store.commit('vocabulary_sets/ADD_REVIEW_LIST', {reviewList: response.data.data.vocab, count: response.data.data.count})
+        }
+      })
+    },
+    showReviewSets() {
+      this.$store.dispatch('vocabulary_sets/showReviewSet', this.$auth.user.id).then((response) => {
+        if (response.data.success) {
+          this.$store.commit('vocabulary_sets/ADD_REVIEW_SETS', Object.values(response.data.data))
+        }
+      })
+    },
+    reviewVocab() {
+      this.$router.push('/review-vocabularies')
     }
   },
   mounted() {
-    this.countData()
+    if(this.$auth.user) {
+      this.countData()
+      this.showReviewList()
+      this.showReviewSets()
+    }
   }
 }
 </script>

@@ -11,9 +11,8 @@
           <b-nav-item v-if='!this.$auth.user' class='font-weight-bold text-black-100' href='#about-us'>Về chúng tôi</b-nav-item>
           <b-nav-item v-if='!this.$auth.user' class='font-weight-bold text-black-100' href='#contact-us'>Liên hệ</b-nav-item>
 
-          <nuxt-link to='manage-topics' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3'>Chủ đề</nuxt-link>
-          <nuxt-link to='manage-sets' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3 ml-3'>Bộ từ</nuxt-link>
-          <nuxt-link to='manage-users' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3 ml-3'>Người dùng</nuxt-link>
+          <nuxt-link @click.native="toggleCurr" to='manage-topics' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3'>Chủ đề</nuxt-link>
+          <nuxt-link @click.native="toggleCurr" to='manage-users' v-if='this.$auth.user && $auth.user.role === "admin"' class='font-weight-bold text-black-50 mt-3 ml-3'>Người dùng</nuxt-link>
 
           <b-button v-if='!this.$auth.user' class='ml-3' variant="outline-warning" to="/login">Đăng nhập</b-button>
           <b-button v-if='this.$auth.user && $auth.user.role !== "admin"' class='ml-3 pt-2' :disabled='this.$route.name === "vocab-set-create-vocab-set"' variant="warning" to="vocab-set/create-vocab-set">
@@ -39,6 +38,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isCurrentItem: false,
+    }
+  },
   methods: {
     async logout () {
       await this.$auth.logout();
@@ -47,7 +51,20 @@ export default {
     },
     openSidebar() {
       this.$root.$emit('bv::toggle::collapse', 'my-sidebar')
-    }
+    },
+    toggleCurr() {
+      this.isCurrentItem = !this.isCurrentItem
+    },
   }
 }
 </script>
+<style scoped>
+.sidenav-link:hover {
+  background-color: #FFC107;
+  color: #000000;
+}
+
+.nuxt-link-exact-active {
+  color: #FFC107 !important;
+}
+</style>

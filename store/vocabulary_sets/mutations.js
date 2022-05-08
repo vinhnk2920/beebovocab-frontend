@@ -10,7 +10,12 @@ import {
   SET_DEFAULT_TOPICS,
   RESET_DEFAULT_TOPICS,
   ADD_TOPIC_ID,
-  ADD_CURRENT_VOCAB_SET, ADD_LEARNING_VOCAB_SET, RESET_LEARNING_VOCAB_SET, UPDATE_LEARNING_VOCAB_INFO, ADD_COUNT_LEVEL
+  ADD_CURRENT_VOCAB_SET,
+  ADD_LEARNING_VOCAB_SET,
+  RESET_LEARNING_VOCAB_SET,
+  UPDATE_LEARNING_VOCAB_INFO,
+  ADD_COUNT_LEVEL,
+  ADD_REVIEW_LIST, ADD_REVIEW_SETS, SET_UPDATE_TOPIC, SET_EDITED_TOPIC
 } from './mutation-types'
 export default {
   /**
@@ -46,6 +51,14 @@ export default {
 
   [SET_UPDATE_SET](state, id) {
     state.currentId = id
+  },
+
+  [SET_UPDATE_TOPIC](state, id) {
+    state.currentTopic = id
+  },
+
+  [SET_EDITED_TOPIC](state, topic) {
+    state.pickedTopic = topic
   },
 
   [RESET_PAGE](state) {
@@ -87,5 +100,14 @@ export default {
 
   [ADD_COUNT_LEVEL](state, level) {
     state.vocabLevel = level
+  },
+
+  [ADD_REVIEW_LIST](state, {reviewList, count}) {
+    state.reviewList = reviewList
+    state.reviewCount = count
+  },
+
+  [ADD_REVIEW_SETS] (state, sets) {
+    state.reviewSets = sets
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class='px-5 w-100'>
-    <h3 class='ml-3'>{{$store.state.vocabulary_sets.currentVocabSet.title}}</h3>
+    <h3 class='ml-3 mb-3'>{{$store.state.vocabulary_sets.currentVocabSet.title}}</h3>
     <div v-for='(vocab, index) in $store.state.vocabulary_sets.learningVocabSet'>
       <div :class='index === currentIndex ? "" : "d-none"'>
         <vue-flashcard

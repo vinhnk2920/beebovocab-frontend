@@ -9,7 +9,7 @@
             </svg>
           </template>
           <b-dropdown-item><nuxt-link to='/vocab-set/edit-vocab-set'  style='color: black;'>Sửa</nuxt-link></b-dropdown-item>
-          <b-dropdown-item @click='addVocab'>Thêm từ vựng</b-dropdown-item>
+          <b-dropdown-item @click='addVocab(data)'>Thêm từ vựng</b-dropdown-item>
           <b-dropdown-item @click='deleteSet(data.id)'>Xóa</b-dropdown-item>
         </b-dropdown>
       </b-card-text>
@@ -20,7 +20,7 @@
         <h5>{{data.title}}</h5>
         <p>{{data.description}}</p>
       </b-card-text>
-      <template #footer>
+      <template #footer v-if='$auth.user.role !== "admin"'>
         <div class='d-flex justify-content-center mt-0'>
           <button @click='learnVocabSet(data)' class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Học bộ từ</button>
         </div>
@@ -53,7 +53,8 @@ export default {
             timer: 1500,
             icon: 'success',
           })
-          this.$store.commit('vocabulary_sets/RESET_VOCAB_SETS')
+          this.$store.commit('vocabulary_sets/RESET_DEFAULT_SETS')
+          this.loadData()
         } else {
           Swal.fire({
             title: 'Thông báo',
@@ -64,6 +65,26 @@ export default {
           })
         }
       })
+    },
+    loadData($state) {
+      const self = this
+      this.$store.state.loading = true
+      this.$store
+        .dispatch('vocabulary_sets/findSetByTopic', {id: self.$store.state.vocabulary_sets.topic_id, page: self.$store.state.vocabulary_sets.query.page})
+        .then((response) => {
+          self.$store.state.loading = false
+          if (response.data.data.vocabulary_sets.data.length) {
+            self.$store.commit('vocabulary_sets/ADD_PAGE')
+            self.$store.commit(
+              'vocabulary_sets/ADD_DEFAULT_SETS',
+              response.data.data.vocabulary_sets.data
+            )
+            $state.loaded()
+          }
+        })
+        .catch((err) => {
+          this.$store.state.loading = false
+        })
     },
     learnVocabSet(vocab_set) {
       this.$store.commit('vocabulary_sets/ADD_CURRENT_VOCAB_SET', vocab_set)
@@ -91,7 +112,24 @@ export default {
           })
         }
       })
-    }
-  }
+    },
+    addVocab(vocab_set){
+      this.$store.commit('vocabulary_sets/ADD_CURRENT_VOCAB_SET', vocab_set)
+      this.$store.dispatch('vocabulary_sets/showVocabularies', vocab_set.id).then((response) => {
+        if (response.data.success) {
+          this.$store.commit('vocabulary_sets/ADD_LEARNING_VOCAB_SET', response.data.data.vocabularies)
+          this.$router.push('/individual-vocabularies')
+        } else {
+          Swal.fire({
+            title: 'Thông báo',
+            text: response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+            icon: 'error',
+          })
+        }
+      })
+    },
+  },
 }
 </script>
