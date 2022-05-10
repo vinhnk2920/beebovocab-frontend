@@ -45,6 +45,7 @@
                       class="form-control mt-3"
                     />
                     <button
+                      type='button'
                       class="btn btn-block mb-4 btn-warning font-weight-bold mt-3"
                       @click='VerifyOTP'
                     >
