@@ -107,5 +107,10 @@ export function updateFriendStatus({ commit, state }, params) {
   return axios.post(`/friend/updateFriendStatus`, params)
 }
 
+export function showUsers({ commit, state }, params) {
+  return axios.post(`/users`, params)
+}
+
+
 
 
