@@ -69,7 +69,7 @@ export default {
     strategies: {
       laravelJWT: {
         provider: 'laravel/jwt',
-        url: 'http://localhost:8000',
+        url: 'http://8.219.131.182:8000',
         token: {
           property: 'token',
           maxAge: 60 * 60 * 24 * 30
