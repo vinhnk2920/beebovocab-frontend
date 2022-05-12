@@ -15,7 +15,7 @@ import {
   RESET_LEARNING_VOCAB_SET,
   UPDATE_LEARNING_VOCAB_INFO,
   ADD_COUNT_LEVEL,
-  ADD_REVIEW_LIST, ADD_REVIEW_SETS, SET_UPDATE_TOPIC, SET_EDITED_TOPIC
+  ADD_REVIEW_LIST, ADD_REVIEW_SETS, SET_UPDATE_TOPIC, SET_EDITED_TOPIC, SET_USERS, RESET_USERS
 } from './mutation-types'
 export default {
   /**
@@ -109,5 +109,13 @@ export default {
 
   [ADD_REVIEW_SETS] (state, sets) {
     state.reviewSets = sets
-  }
+  },
+
+  [SET_USERS](state, users) {
+  state.users = users
+  },
+
+  [RESET_USERS](state) {
+    state.users = []
+  },
 }

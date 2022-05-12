@@ -27,7 +27,8 @@ const STATE = {
   vocabLevel: [],
   reviewList: [],
   reviewCount: 0,
-  reviewSets: []
+  reviewSets: [],
+  users: [],
 }
 
 export default STATE

@@ -18,4 +18,6 @@ export const ADD_COUNT_LEVEL = 'ADD_COUNT_LEVEL'
 export const ADD_REVIEW_LIST = 'ADD_REVIEW_LIST'
 export const ADD_REVIEW_SETS = 'ADD_REVIEW_SETS'
 export const SET_EDITED_TOPIC = 'SET_EDITED_TOPIC'
+export const SET_USERS = 'SET_USERS'
+export const RESET_USERS = 'RESET_USERS'
 

@@ -59,7 +59,7 @@
             <h2 class='slogan font-weight-bolder'>Xin chào</h2>
             <h2 class='font-weight-bolder bg-warning w-max-min rounded-lg px-2 py-2'>{{$auth.user.name}}</h2>
             <h4 class='py-2'>Bạn có <span class='font-weight-bold bg-warning px-2 rounded-lg'>{{this.$store.state.vocabulary_sets.reviewCount}}</span> từ cần ôn tập</h4>
-            <button @click='reviewVocab' class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Ôn tập</button>
+            <button :disabled='this.$store.state.vocabulary_sets.reviewCount === 0' @click='reviewVocab' class='border border-warning bg-warning rounded-lg px-4 py-1' style='font-size: 18px;'>Ôn tập</button>
           </div>
         </div>
         <div class='mt-5'>
@@ -67,11 +67,10 @@
         </div>
       </div>
       <div style='width: 30%;' class='text-center shadow-lg rounded-lg'>
-        <div class='border-bottom' style='padding-top: 15%; padding-bottom: 15%;'>
-          <h2>Số từ đã học</h2>
-          <h2 class='mt-5' style='font-size: 105px;'><span class='rounded-circle bg-warning px-5 py-1'>{{totalWord}}</span></h2>
+        <div class='py-4 border-bottom'>
+          <b-calendar locale='vi' v-model='today' selected-variant='warning' />
         </div>
-        <div class='mt-5'>
+        <div class='mt-3'>
           <h3 class='py-2 mb-3'>Các bài học gần đây</h3>
           <div v-for='set in $store.state.vocabulary_sets.reviewSets' :key='set.id' class='d-flex bg-warning py-3 rounded-lg mb-4 mx-4 shadow'>
             <div style='width: 30%;'>
@@ -100,6 +99,7 @@ export default {
       vocabLevel: [],
       chartData: {},
       totalWord: 0,
+      today: '',
     }
   },
   methods: {
@@ -131,10 +131,20 @@ export default {
     },
     reviewVocab() {
       this.$router.push('/review-vocabularies')
-    }
+    },
+    setToday() {
+      let today = new Date();
+      let dd = String(today.getDate()).padStart(2, '0');
+      let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      let yyyy = today.getFullYear();
+
+      today = yyyy + '-' + mm + '-' + dd;
+      this.today = today
+    },
   },
   mounted() {
     if(this.$auth.user) {
+      this.setToday()
       this.countData()
       this.showReviewList()
       this.showReviewSets()

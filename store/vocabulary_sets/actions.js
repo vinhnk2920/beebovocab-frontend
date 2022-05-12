@@ -111,6 +111,10 @@ export function showUsers({ commit, state }, params) {
   return axios.post(`/users`, params)
 }
 
+export function deleteUser({ commit, state }, params) {
+  return axios.post(`/users/delete`, params)
+}
+
 
 
 
